@@ -26,7 +26,6 @@ Route::get('/movies/top_rated', [MovieController::class, 'getTopRatedMovies']);
 Route::get('/movies/trending', [MovieController::class, 'getTrendingMovies']);
 Route::get('/movies/search', [MovieController::class, 'searchMovies']);
 Route::get('/movies/upcoming', [MovieController::class, 'getUpcomingMovies']);
-Route::get('/postman/csrf', [MovieController::class, 'getCsrfToken']);
 Route::get('/authenticated-user', [MovieController::class, 'getAuthenticatedUser'])->name('authenticated-user');
 Route::get('/movies', [UserController::class, 'getSavedShows']);
 Route::put('/movies', [UserController::class, 'updateSavedShows']);

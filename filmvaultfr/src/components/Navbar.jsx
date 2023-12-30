@@ -64,11 +64,11 @@ const Navbar = () => {
     setSearchResults([]); // Hide the search results
   };
   return (
-    <div className="flex items-center justify-between p-4 z-50 w-full absolute">
+    <div className="flex items-center justify-between p-4 bg-gray-800 z-50 text-white w-full fixed">
       <Link to="/">
-        <h1 className="text-cyan-600 text-4xl font-bold cursor-pointer">FilmVault</h1>
+        <h1 className="text-4xl font-bold cursor-pointer bg-gradient-to-r from-purple-500 to-blue-300 text-transparent bg-clip-text">FilmVault</h1>
       </Link>
-
+  
       {/* Search Bar */}
       <div className="relative">
         <input
@@ -79,72 +79,73 @@ const Navbar = () => {
             setSearchInput(e.target.value);
             debouncedSearch();
           }}
-          className="p-2 border border-gray-300 rounded-md mr-4 focus:outline-none"
+          className="p-2 border border-gray-300 rounded-md mr-4 focus:outline-none bg-gray-700 text-white"
         />
-
+  
         {/* Search Results */}
         {!searching && searchResults.length > 0 && (
-    <div
-      ref={searchResultsRef}
-      className="absolute top-full left-0 mt-2 bg-black rounded-md border border-gray-300 w-[200px] max-h-[200px] overflow-y-auto shadow-md"
-    >
-      {searchResults.map((result) => (
-        <Link
-          to={`/movie/${result.id}`}
-          key={result.id}
-          className="flex items-center p-2 cursor-pointer hover:bg-gray-800 transition duration-300 ease-in-out"
-          onClick={() => {
-            handleResultClick();
-            // Optionally, you can perform additional actions when clicking a result.
-          }}
-        >
-          {result.poster_path ? (
-            <img
-              src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
-              alt={result.title}
-              className="w-10 h-14 mr-2 object-cover rounded-md"
-            />
-          ) : (
-            <div className="w-10 h-14 bg-gray-300 mr-2 rounded-md"></div>
-          )}
-          <span className="text-white">{result.title}</span>
-        </Link>
-      ))}
-    </div>
-  )}
-      </div>
-
-      {/* User Actions */}
-      {user ? (
-        <div className="flex items-center space-x-4">
-          <Link to="/account">
-            <button className="text-[#FFFDE3]">Account</button>
-          </Link>
-          {/* Add a link to the Settings component */}
-          <Link to="/settings">
-            <button className="text-[#FFFDE3]">Settings</button>
-          </Link>
-          <button
-            onClick={handleLogOut}
-            className="text-[#FFFDE3] px-4 py-2 rounded cursor-pointer bg-cyan-600"
+          <div
+            ref={searchResultsRef}
+            className="absolute top-full left-0 mt-2 bg-black rounded-md border border-gray-300 w-[200px] max-h-[200px] overflow-y-auto shadow-md"
           >
-            Logout
-          </button>
-        </div>
-      ) : (
-        <div className="flex items-center space-x-4">
-          <Link to="/signIn">
-            <button className="text-[#FFFDE3]">Sign In</button>
-          </Link>
-          <Link to="/signUp">
-            <button className="text-[#FFFDE3] px-4 py-2 rounded cursor-pointer bg-cyan-600">
-              Sign Up
+            {searchResults.map((result) => (
+              <Link
+                to={`/movie/${result.id}`}
+                key={result.id}
+                className="flex items-center p-2 cursor-pointer hover:bg-gray-800 transition duration-300 ease-in-out"
+                onClick={() => {
+                  handleResultClick();
+                  // Optionally, you can perform additional actions when clicking a result.
+                }}
+              >
+                {result.poster_path ? (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
+                    alt={result.title}
+                    className="w-10 h-14 mr-2 object-cover rounded-md"
+                  />
+                ) : (
+                  <div className="w-10 h-14 bg-gray-300 mr-2 rounded-md"></div>
+                )}
+                <span className="text-white">{result.title}</span>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+  
+      {/* User Actions */}
+      <div className="flex items-center space-x-4">
+        {user ? (
+          <>
+            <Link to="/account">
+              <button className="text-[#FFFDE3]">Account</button>
+            </Link>
+            {/* Add a link to the Settings component */}
+            <Link to="/settings">
+              <button className="text-[#FFFDE3]">Settings</button>
+            </Link>
+            <button
+              onClick={handleLogOut}
+              className="text-[#FFFDE3] px-4 py-2 rounded cursor-pointer bg-cyan-600"
+            >
+              Logout
             </button>
-          </Link>
-        </div>
-      )}
+          </>
+        ) : (
+          <div className="flex items-center space-x-4">
+            <Link to="/signIn">
+              <button className="text-[#FFFDE3]">Sign In</button>
+            </Link>
+            <Link to="/signUp">
+              <button className="text-[#FFFDE3] px-4 py-2 rounded cursor-pointer bg-cyan-600">
+                Sign Up
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
+        };  
 export default Navbar;

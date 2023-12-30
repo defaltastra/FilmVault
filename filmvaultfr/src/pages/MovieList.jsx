@@ -5,8 +5,6 @@ import { IoMdPlay } from "react-icons/io";
 import Youtube from "react-youtube";
 import { AiFillStar } from "react-icons/ai";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { FiBookmark } from "react-icons/fi";
-import { GiShare } from "react-icons/gi";
 import { useAuth } from "../context/AuthContext";
 const MovieDetails = () => {
   const params = useParams();
@@ -15,7 +13,6 @@ const MovieDetails = () => {
   const [movieData, setMovieData] = useState([]);
   const [trailer, setTrailer] = useState(null);
   const [like, setLike] = useState(false);
-  const [saved, setSaved] = useState(false);
   const { check, user } = useAuth();
   useEffect(() => {
     fetchData();
@@ -26,82 +23,77 @@ const MovieDetails = () => {
       const response = await axios.get(
         `http://localhost:8000/movie/${params.movieId}?api_key=${key}&append_to_response=videos`
       );
-  
+
       setMovieData(response.data);
-  
+
       // Check if videos property exists in the response data
       if (response.data.videos && response.data.videos.results) {
         const trailerid = response.data.videos.results.find(
-          (vid) => vid.name === 'Official Trailer'
+          (vid) => vid.name === "Official Trailer"
         );
-  
+
         // If 'Official Trailer' is not found, use the first video result
         setTrailer(trailerid ? trailerid : response.data.videos.results[0]);
       } else {
-        console.error('No videos found for this movie.');
+        console.error("No videos found for this movie.");
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
-  
-
 
   const saveShow = async () => {
     try {
-      const storedToken = localStorage.getItem('authToken');
-      const storedUserId = localStorage.getItem('userId'); // Retrieve user_id from localStorage
-      console.log('Stored Auth Token:', storedToken);
-  
+      const storedToken = localStorage.getItem("authToken");
+      const storedUserId = localStorage.getItem("userId"); // Retrieve user_id from localStorage
+      console.log("Stored Auth Token:", storedToken);
+
       // Use your check function or a proper authentication check here
       if (!storedToken || !storedUserId || !check()) {
-        alert('You need to be signed in to add the movie to favorites');
+        alert("You need to be signed in to add the movie to favorites");
         return;
       }
-  
+
       // Retrieve CSRF token
-      const csrfResponse = await axios.get('http://localhost:8000/csrf-token');
+      const csrfResponse = await axios.get("http://localhost:8000/csrf-token");
       const csrfToken = csrfResponse.data.csrf_token;
-      console.log('Retrieved CSRF Token:', csrfToken);
-  
+      console.log("Retrieved CSRF Token:", csrfToken);
+
       const response = await axios.post(
-        'http://localhost:8000/add-to-favorites',
+        "http://localhost:8000/add-to-favorites",
         {
           movie_id: movieData.id,
           poster_path: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`,
         },
         {
           headers: {
-            'Authorization': `Bearer ${storedToken}`,
-            'X-CSRF-TOKEN': csrfToken,
-            'userId': storedUserId, // Include the retrieved userId from localStorage in the headers
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${storedToken}`,
+            "X-CSRF-TOKEN": csrfToken,
+            userId: storedUserId, // Include the retrieved userId from localStorage in the headers
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
-  
-      console.log('Request Headers:', {
-        'Authorization': `Bearer ${storedToken}`,
-        'X-CSRF-TOKEN': csrfToken,
-        'userId': storedUserId,
-        'Content-Type': 'application/json',
+
+      console.log("Request Headers:", {
+        Authorization: `Bearer ${storedToken}`,
+        "X-CSRF-TOKEN": csrfToken,
+        userId: storedUserId,
+        "Content-Type": "application/json",
       });
-  
+
       if (response.status === 200) {
-        console.log('Movie added to favorites successfully');
+        console.log("Movie added to favorites successfully");
         setLike(true);
       } else {
-        console.error('Failed to save show. Response:', response);
+        console.error("Failed to save show. Response:", response);
       }
     } catch (error) {
-      console.error('Error saving show:', error);
+      console.error("Error saving show:", error);
     }
   };
-  
-  
-  
-  
+
   console.log(movieData);
   return (
     <div className=" h-[90vh]">
@@ -121,17 +113,16 @@ const MovieDetails = () => {
                   </button>
                 </div>
                 <>
-                {trailer && trailer.key && (
-  <Youtube
-    videoId={trailer.key}
-    className="w-[50vh] h-[50vh] md:w-[100vh] md:h-[60vh]"
-    opts={{
-      width: "100%",
-      height: "100%",
-    }}
-  />
-)}
-
+                  {trailer && trailer.key && (
+                    <Youtube
+                      videoId={trailer.key}
+                      className="w-[50vh] h-[50vh] md:w-[100vh] md:h-[60vh]"
+                      opts={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  )}
                 </>
               </div>
             </div>
@@ -210,7 +201,6 @@ const MovieDetails = () => {
                   <FaRegHeart className="text-gray-300 text-2xl ml-6 mb-8 md:mb-0" />
                 )}
               </p>
-
             </div>
           </div>
           <div></div>

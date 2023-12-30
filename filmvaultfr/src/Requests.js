@@ -1,4 +1,4 @@
-const key = '79f81315f3151ba15728d38a9f77cbf4';
+const key = process.env.REACT_APP_TMDB_API_KEY;
 const baseUrl = 'http://127.0.0.1:8000'; // Update with your Laravel API URL
 
 const requests = {
