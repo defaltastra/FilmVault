@@ -41,7 +41,7 @@ const SavedShow = () => {
       const csrfToken = csrfResponse.data.csrf_token;
   
       await axios.delete(
-        `http://127.0.0.1:8000/user/${user?.id}/delete-show/${passId}`, // Updated URL
+        `http://127.0.0.1:8000/user/${user?.id}/delete-show/${passId}`, 
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -51,7 +51,6 @@ const SavedShow = () => {
         }
       );
   
-      // If the DELETE request is successful, update the state
       setMovies((prevMovies) => prevMovies.filter((item) => item.id !== passId));
     } catch (error) {
       console.error('Error deleting show:', error);

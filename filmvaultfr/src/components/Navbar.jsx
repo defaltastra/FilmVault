@@ -3,10 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import _debounce from "lodash/debounce";
-import Settings from "./Settings";
 
 const Navbar = () => {
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -30,10 +29,8 @@ const Navbar = () => {
 
   const handleLogOut = async () => {
     try {
-      // Fetch CSRF token
       const { data: csrfToken } = await axios.get("http://127.0.0.1:8000/csrf-token");
 
-      // Call the logout function with the CSRF token
       await logout(csrfToken);
 
       navigate("/");
@@ -45,7 +42,6 @@ const Navbar = () => {
 
 
   useEffect(() => {
-    // Add a click event listener to the document to hide search results when clicked outside
     const handleClickOutside = (event) => {
       if (searchResultsRef.current && !searchResultsRef.current.contains(event.target)) {
         setSearchInput("");
@@ -60,8 +56,8 @@ const Navbar = () => {
     };
   }, []);
   const handleResultClick = () => {
-    setSearchInput(''); // Clear the search input
-    setSearchResults([]); // Hide the search results
+    setSearchInput(''); 
+    setSearchResults([]); 
   };
   return (
     <div className="flex items-center justify-between p-4 bg-gray-800 z-50 text-white w-full fixed">
@@ -95,7 +91,6 @@ const Navbar = () => {
                 className="flex items-center p-2 cursor-pointer hover:bg-gray-800 transition duration-300 ease-in-out"
                 onClick={() => {
                   handleResultClick();
-                  // Optionally, you can perform additional actions when clicking a result.
                 }}
               >
                 {result.poster_path ? (

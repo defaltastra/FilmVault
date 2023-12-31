@@ -45,10 +45,10 @@ const Main = (props) => {
     arrows: true,
     autoplay: true,
     autoplaySpeed: 5000,
+    pauseOnHover: false,
   };
 
   const handleClick = (event, movieId) => {
-    // Check if the click event is coming from the "Play" button
     if (event.target.classList.contains('play-button')) {
       navigate(`/${props.genre}/${movieId}`);
     }

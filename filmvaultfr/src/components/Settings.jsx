@@ -20,7 +20,7 @@ const Settings = () => {
             }, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
-                    'X-User-Name': userName, // Corrected this line
+                    'X-User-Name': userName, 
                 }
             });
     

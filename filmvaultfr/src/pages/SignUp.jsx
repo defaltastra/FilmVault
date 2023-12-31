@@ -20,7 +20,6 @@ const SignUp = () => {
         console.log("CSRF Token Response:", response);
         console.log("Extracted CSRF Token:", csrfToken);
   
-        // Check if csrfToken is not undefined or null before setting in state
         if (csrfToken) {
           setCsrfToken(csrfToken);
         } else {

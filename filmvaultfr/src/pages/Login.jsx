@@ -7,21 +7,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [ setLoading] = useState(false); 
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true); // Set loading to true during the request
+    setLoading(true); 
   
     try {
-      // Fetch CSRF token from your backend (replace with actual endpoint)
       const response = await axios.get("http://127.0.0.1:8000/csrf-token");
       const csrfToken = response.data;
   
-      // Include CSRF token in the headers
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -30,14 +28,13 @@ const Login = () => {
       };
       console.log("Request Config:", config);
 
-      // Make login request
       await login(email, password);
       navigate("/");
     } catch (error) {
       console.log(error);
       setError("Login failed. Please check your credentials.");
     } finally {
-      setLoading(false); // Set loading to false after the request completes (whether success or failure)
+      setLoading(false);
     }
   };
   
@@ -59,7 +56,7 @@ const Login = () => {
               <form onSubmit={handleSubmit} className="w-full flex flex-col py-4">
                 <input
                   onChange={(e) => setEmail(e.target.value)}
-                  className="p-3 my-2 bg-gray-700 rounded" // Fixed typo here
+                  className="p-3 my-2 bg-gray-700 rounded" 
                   type="email"
                   placeholder="Email"
                   autoComplete="email"

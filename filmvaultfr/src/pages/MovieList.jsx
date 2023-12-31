@@ -6,6 +6,7 @@ import Youtube from "react-youtube";
 import { AiFillStar } from "react-icons/ai";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
+
 const MovieDetails = () => {
   const params = useParams();
   const key = process.env.REACT_APP_IMDB_API_KEY;
@@ -13,7 +14,8 @@ const MovieDetails = () => {
   const [movieData, setMovieData] = useState([]);
   const [trailer, setTrailer] = useState(null);
   const [like, setLike] = useState(false);
-  const { check, user } = useAuth();
+  const { check} = useAuth();
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -26,13 +28,10 @@ const MovieDetails = () => {
 
       setMovieData(response.data);
 
-      // Check if videos property exists in the response data
       if (response.data.videos && response.data.videos.results) {
         const trailerid = response.data.videos.results.find(
           (vid) => vid.name === "Official Trailer"
         );
-
-        // If 'Official Trailer' is not found, use the first video result
         setTrailer(trailerid ? trailerid : response.data.videos.results[0]);
       } else {
         console.error("No videos found for this movie.");
@@ -45,19 +44,14 @@ const MovieDetails = () => {
   const saveShow = async () => {
     try {
       const storedToken = localStorage.getItem("authToken");
-      const storedUserId = localStorage.getItem("userId"); // Retrieve user_id from localStorage
-      console.log("Stored Auth Token:", storedToken);
-
-      // Use your check function or a proper authentication check here
+      const storedUserId = localStorage.getItem("userId");
       if (!storedToken || !storedUserId || !check()) {
         alert("You need to be signed in to add the movie to favorites");
         return;
       }
 
-      // Retrieve CSRF token
       const csrfResponse = await axios.get("http://localhost:8000/csrf-token");
       const csrfToken = csrfResponse.data.csrf_token;
-      console.log("Retrieved CSRF Token:", csrfToken);
 
       const response = await axios.post(
         "http://localhost:8000/add-to-favorites",
@@ -69,19 +63,12 @@ const MovieDetails = () => {
           headers: {
             Authorization: `Bearer ${storedToken}`,
             "X-CSRF-TOKEN": csrfToken,
-            userId: storedUserId, // Include the retrieved userId from localStorage in the headers
+            userId: storedUserId,
             "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
-
-      console.log("Request Headers:", {
-        Authorization: `Bearer ${storedToken}`,
-        "X-CSRF-TOKEN": csrfToken,
-        userId: storedUserId,
-        "Content-Type": "application/json",
-      });
 
       if (response.status === 200) {
         console.log("Movie added to favorites successfully");
@@ -95,6 +82,7 @@ const MovieDetails = () => {
   };
 
   console.log(movieData);
+
   return (
     <div className=" h-[90vh]">
       {showModal ? (

@@ -3,7 +3,6 @@ import axios from "axios";
 import Movie from "../components/Movie";
 import { useParams } from "react-router-dom";
 
-// src/pages/MovieList.jsx
 const MovieList = () => {
   const params = useParams();
   const key = process.env.REACT_APP_IMDB_API_KEY;
@@ -26,7 +25,6 @@ const MovieList = () => {
     fetchData();
   }, [fetchData]);
 
-  // Render the movies
 
   const loadMore = () => {
     setPage((prevstate) => prevstate + 1);

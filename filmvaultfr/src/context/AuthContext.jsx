@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const check = () => {
-    // Implement your authentication check logic
     return user !== null;
   };
 
@@ -91,7 +90,6 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         console.error('Fetch user failed:', error);
     
-        // Handle token expiry or invalid token
         if (error.response && error.response.status === 401) {
           console.log('Token expired or invalid. Clearing user data.');
           setUser(null);
