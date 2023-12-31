@@ -89,7 +89,10 @@ const SavedShow = () => {
                   <h3 className="text-xl font-semibold mb-2">{item?.title}</h3>
                   <p className="text-gray-600">{item?.overview}</p>
                   <div className="flex justify-end mt-4">
-                    <button onClick={() => deleteShow(item.id)} className="text-gray-300">
+                    <button
+                      onClick={() => deleteShow(item.id)}
+                      className="text-white bg-red-500 px-3 py-1 rounded-full hover:bg-red-600 transition duration-300"
+                    >
                       <AiOutlineClose />
                     </button>
                   </div>
@@ -101,6 +104,5 @@ const SavedShow = () => {
       </div>
     </div>
   );
-};
-
+                };  
 export default SavedShow;
