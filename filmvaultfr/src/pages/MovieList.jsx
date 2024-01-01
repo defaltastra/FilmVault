@@ -15,7 +15,6 @@ const MovieDetails = () => {
   const [trailer, setTrailer] = useState(null);
   const [like, setLike] = useState(false);
   const { check} = useAuth();
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -83,6 +82,13 @@ const MovieDetails = () => {
 
   console.log(movieData);
 
+  const watchMovie = async () => {
+    try {
+      window.location.href = `https://watch.lonelil.com/watch/movie/${params.movieId}`;
+    } catch (error) {
+      console.error("Error redirecting to watch page:", error);
+    }
+  };
   return (
     <div className=" h-[90vh]">
       {showModal ? (
@@ -119,7 +125,7 @@ const MovieDetails = () => {
         </>
       ) : null}
 
-      <div className="">
+<div className="">
         <div className="absolute w-full h-[70vh] bg-gradient-to-t from-black ">
           {" "}
         </div>
@@ -182,7 +188,15 @@ const MovieDetails = () => {
                 Watch Trailer
               </button>
 
-              <p onClick={saveShow} className=" cursor-pointer">
+              <button
+                onClick={watchMovie}
+                className="border text-[#FFFDE3] text-base border-gray-300 py-2 px-5 flex flex-row items-center hover:bg-cyan-600 hover:border-cyan-600 mb-8 md:mb-0 ml-4"
+              >
+                <IoMdPlay className="mr-3" />
+                Watch Movie
+              </button>
+
+              <p onClick={saveShow} className="cursor-pointer">
                 {like ? (
                   <FaHeart className="text-gray-300 text-2xl ml-6 mb-8 md:mb-0" />
                 ) : (
