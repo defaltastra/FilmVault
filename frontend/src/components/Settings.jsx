@@ -26,24 +26,19 @@ const Settings = () => {
 
             console.log('Success response:', response.data);
 
-            // Ensure the success response has the expected structure
             if (response.data && response.data.status === 'Password updated successfully') {
-                // Show success toast
                 toast.success(response.data.status, { position: toast.POSITION.TOP_CENTER });
 
-                // Clear input fields after successful update
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
             } else {
-                // Handle unexpected success response
                 console.error('Unexpected success response:', response.data);
                 toast.error('An unexpected error occurred', { position: toast.POSITION.TOP_CENTER });
             }
         } catch (error) {
             console.error('Error response:', error.response.data);
 
-            // Show error toast
             toast.error(error.response.data.error || 'Passwords not matching', { position: toast.POSITION.TOP_CENTER });
         }
     };

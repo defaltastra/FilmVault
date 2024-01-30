@@ -24,7 +24,7 @@ class MovieController extends Controller
 
     public function getMovieDetails($movieId)
     {
-        $apiKey = config('services.tmdb.api_key'); // Retrieve your TMDb API key from config
+        $apiKey = config('services.tmdb.api_key'); // recuperer api depuis env
 
         $response = Http::get("https://api.themoviedb.org/3/movie/{$movieId}", [
             'api_key' => $apiKey,
@@ -40,13 +40,7 @@ class MovieController extends Controller
 
         return $response->getBody();
     }
-    public function searchActors($query)
-    {
-        $client = new Client();
-        $response = $client->get("https://api.themoviedb.org/3/search/person?api_key={$this->apiKey}&query={$query}&language=en-US");
 
-        return $response->getBody();
-    }
   
     
     
@@ -56,8 +50,8 @@ class MovieController extends Controller
 
 public function getVideos($movieId)
     {
-        $apiKey = config('services.tmdb.api_key'); // Retrieve your TMDb API key from config
-
+        $apiKey = config('services.tmdb.api_key'); 
+        // recuperer le trailer du movie
         $response = Http::get("https://api.themoviedb.org/3/movie/{$movieId}/videos", [
             'api_key' => $apiKey,
         ]);
@@ -111,7 +105,7 @@ public function addToFavorites(Request $request)
 {
     Log::info('Request received to add to favorites.');
 
-    // Fetch movie details from TMDb API
+    // recuperer les données depuis l'api TMDB
     $movieId = $request->input('movie_id');
     $apiKey = config('services.tmdb.api_key');
     $response = Http::get("https://api.themoviedb.org/3/movie/{$movieId}", [
@@ -121,7 +115,7 @@ public function addToFavorites(Request $request)
 
     $movieData = $response->json();
 
-    // Create the movie
+    // Creer l'objet film
     $movie = new Movie([
         'title' => $movieData['title'],
         'overview' => $movieData['overview'],
@@ -130,7 +124,7 @@ public function addToFavorites(Request $request)
         'poster_path' => $movieData['poster_path'],
     ]);
 
-    // Associate the movie with a user (assuming you have a default user with ID 1)
+    // associer le film avec l'id correspondant
     $userId =  $request->header('userId');
     $user = User::find($userId);
     $user->movies()->save($movie);
@@ -142,7 +136,7 @@ public function addToFavorites(Request $request)
 
 public function getAuthenticatedUser()
 {
-    // Get the authenticated user
+    // recuperer l'utilisateur authentifié
     $user = Auth::user();
 
     if ($user) {
@@ -154,9 +148,9 @@ public function getAuthenticatedUser()
 public function search(Request $request)
     {
         $query = $request->input('q');
-        $apiKey = config('services.tmdb.api_key'); // Replace with your TMDB API key
+        $apiKey = config('services.tmdb.api_key'); 
         $page = $request->input('page', 1);
-        // Make a request to the TMDB API for search results
+        // requete pour faire la recherche
         $response = Http::get("https://api.themoviedb.org/3/search/movie", [
             'api_key' => $apiKey,
             'query' => $query,
@@ -168,26 +162,5 @@ public function search(Request $request)
     }
 
 
-    private function fetchPosterPaths($movies)
-    {
-        $moviesWithPosters = [];
-    
-        foreach ($movies as $movie) {
-            try {
-                $tmdbResponse = Http::get("https://api.themoviedb.org/3/movie/{$movie->tmdb_id}", [
-                    'api_key' => config('services.tmdb.api_key'),
-                ]);
-    
-                $posterPath = $tmdbResponse->json()['poster_path'];
-                $movie->poster_path = $posterPath;
-                $moviesWithPosters[] = $movie;
-            } catch (\Exception $e) {
-                // Log the error or handle it as needed
-                \Log::error("Error fetching poster path for movie ID {$movie->id}: " . $e->getMessage());
-                $moviesWithPosters[] = $movie;
-            }
-        }
-    
-        return $moviesWithPosters;
-    }
+
 }
