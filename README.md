@@ -29,7 +29,7 @@ Follow these steps to set up and run FilmVault locally:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/filmvault.git
+   git clone https://github.com/defaltastra/filmvault.git
    ```
 
 2. Navigate to the project directory:
