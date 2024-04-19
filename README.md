@@ -41,9 +41,20 @@ Follow these steps to set up and run FilmVault locally:
 3. Install backend dependencies:
 
    ```bash
-   composer install
+   cd backend
    ```
 
+   ```bash
+   cp .env.example .env
+   ```
+   
+   ```bash
+   php artisan key:generate
+   ```
+
+   ```bash
+   composer install
+   ```
 4. Set up the database:
 
    ```bash
