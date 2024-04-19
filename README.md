@@ -47,7 +47,7 @@ Follow these steps to set up and run FilmVault locally:
    ```bash
    cp .env.example .env
    ```
-   
+
    ```bash
    php artisan key:generate
    ```
@@ -62,6 +62,10 @@ Follow these steps to set up and run FilmVault locally:
    ```
 
 5. Install frontend dependencies:
+
+   ```bash
+   cd frontend
+   ```
 
    ```bash
    npm install
