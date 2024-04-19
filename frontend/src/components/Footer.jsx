@@ -1,7 +1,7 @@
 import React from "react";
 
 function YearCopyright() {
-  return  <p id="copyright-year">Copyright@{new Date().getFullYear()}. Developed By:Defaltastra And Megane </p>;
+  return  <p id="copyright-year">Copyright@{new Date().getFullYear()} Developed By:Defaltastra And Megane </p>;
 }
 
 const Footer = () => {
