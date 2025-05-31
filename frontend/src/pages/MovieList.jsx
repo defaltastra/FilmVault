@@ -84,7 +84,7 @@ const MovieDetails = () => {
 
   const watchMovie = async () => {
     try {
-      window.location.href = `https://watch.lonelil.com/watch/movie/${params.movieId}`;
+      window.location.href = `https://watch.spencerdevs.xyz/movie/${params.movieId}/watch`;
     } catch (error) {
       console.error("Error redirecting to watch page:", error);
     }
